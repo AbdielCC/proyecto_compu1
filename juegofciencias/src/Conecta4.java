@@ -1,16 +1,26 @@
-
+    /*
+     * Clase del juego Conecta4
+     * @author Fernanda Muñoz
+     * @version 1.0
+     */
 import java.util.Scanner;
 import jugador.Jugador;
-
+    /*
+     * Atributos de Conecta4
+     */
 public class Conecta4 {
     private final int filas=6;
     private final int columnas=7;
     private final char [][] tablero;
-
+    /*
+     * Constructor
+     */
     public Conecta4(){
         tablero = new char[filas][columnas];
     }
-
+    /*
+     * Metodo para iniciar un tablero de Conecta 4
+     */
     public void iniciarTablero(){
         for (int i=0, i<=filas, i++) {
             for (int j=0, j<8, j++) {
@@ -18,6 +28,11 @@ public class Conecta4 {
             }
         }
     }
+    /*
+     * Metodo para colocar una ficha si está disponible
+     * @param int col
+     * @param Jugador j 
+     */
     public boolean ponerFicha(int col, Jugador j) {
         for (int fila = filas - 1; fila >= 0; fila--) {
             if (tablero[fila][col] == ' ') {
@@ -27,7 +42,10 @@ public class Conecta4 {
         }
         return false;
     }
-
+    /*
+     * Metodo que indica si ya hay un ganador
+     * @param Jugador j
+     */
     public boolean hayGanador (Jugador j) {
         // Revisión horizontal
         for (int fila = 0; fila < filas; fila++) {
@@ -40,7 +58,6 @@ public class Conecta4 {
                 }
             }
         }
-
         // Revisión vertical
         for (int col = 0; col < columnas; col++) {
             for (int fila = 0; fila <= filas - 4; fila++) {
@@ -52,7 +69,6 @@ public class Conecta4 {
                 }
             }
         }
-
         // Revisión diagonal
         for (int fila = 0; fila <= filas - 4; fila++) {
             for (int col = 0; col <= columnas - 4; col++) {
@@ -74,6 +90,9 @@ public class Conecta4 {
         }
         return false;
     }
+    /*
+     * Metodo que indica si el tablero se ha llenado
+     */
     public boolean tableroLleno() {
         for (int col = 0; col < columnas; col++) {
             if (tablero[0][col] == ' ') {
@@ -82,6 +101,9 @@ public class Conecta4 {
         }
         return true;
     }
+    /*
+     * Metodo que muestra el tablero del juego
+     */
     public void mostrarTablero() {
         for (int fila = 0; fila < filas; fila++) {
             for (int col = 0; col < columnas; col++) {
@@ -91,22 +113,21 @@ public class Conecta4 {
         }
         System.out.println("0 1 2 3 4 5 6");
     }
-
-
-
-
-
-    public static void main(String[] args) {
+    /*
+     * Metodo que inicia el juego de Conecta4
+     */
+    public void iniciarConecta4() {
         Conecta4 con4 = new Conecta4();
         Scanner scanner = new Scanner(System.in);
         Jugador j1;
         Jugador j2;
+        Jugador jugadorActual=j1;
 
         boolean gameOver = false;
 
         while (!gameOver) {
             con4.mostrarTablero();
-            System.out.println("Jugador " + j1 + ", elige una columna (0-6):");
+            System.out.println("Jugador " + jugadorActual + ", elige una columna (0-6):");
             
             int col = scanner.nextInt();
             
@@ -115,10 +136,10 @@ public class Conecta4 {
                 continue;
             }
 
-            if (con4.ponerFicha(col, j1)) {
-                if (con4.hayGanador(j1)) {
+            if (con4.ponerFicha(col, jugadorActual)) {
+                if (con4.hayGanador(jugadorActual)) {
                     con4.mostrarTablero();
-                    System.out.println("Jugador " + j1 + " gana");
+                    System.out.println("Jugador " + jugadorActual + " gana");
                     gameOver = true;
                 } else if (con4.tableroLleno()) {
                     con4.mostrarTablero();
@@ -127,7 +148,7 @@ public class Conecta4 {
                 }
 
                 // Cambiar jugador
-                j1 = ( == 'X') ? 'O' : 'X';
+                jugadorActual = (jugadorActual.equals(j1)) ? j2 : j1;
             } else {
                 System.out.println("Columna llena, intenta otra");
             }
